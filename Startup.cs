@@ -30,7 +30,12 @@ namespace Commander
 
             services.AddControllers();
             // asi se hace una inyeccion de dependencias
+            // created once per client request
             services.AddScoped<ICommanderRepo, MockCommanderRepo>();
+            // same for every request
+            // services.AddSingleton
+            // new instance created every time
+            // services.Transient
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Commander", Version = "v1" });
