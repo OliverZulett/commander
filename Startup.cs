@@ -36,7 +36,8 @@ namespace Commander
       services.AddControllers();
       // asi se hace una inyeccion de dependencias
       // created once per client request
-      services.AddScoped<ICommanderRepo, MockCommanderRepo>();
+      // services.AddScoped<ICommanderRepo, MockCommanderRepo>();
+      services.AddScoped<ICommanderRepo, SqlCommanderRepo>();
       // same for every request
       // services.AddSingleton
       // new instance created every time
