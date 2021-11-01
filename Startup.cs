@@ -34,6 +34,7 @@ namespace Commander
           )
       );
       services.AddControllers();
+      services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
       // asi se hace una inyeccion de dependencias
       // created once per client request
       // services.AddScoped<ICommanderRepo, MockCommanderRepo>();
