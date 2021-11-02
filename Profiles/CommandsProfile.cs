@@ -6,9 +6,11 @@ namespace Commander.Profiles
 {
   public class CommandsProfile : Profile
   {
-      public CommandsProfile()
-      {
-          CreateMap<Command, CommandReadDto>();
-      }
-  }   
+    public CommandsProfile()
+    {
+      // source, target
+      CreateMap<Command, CommandReadDto>();
+      CreateMap<CommandCreateDto, Command>();
+    }
+  }
 }
