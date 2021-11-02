@@ -54,5 +54,18 @@ namespace Commander.Controller
       // const el parametro location
       return CreatedAtRoute(nameof(GetCommandById), new {Id = commandReadDto.Id}, commandReadDto);
     }
+
+    [HttpPut("{id}")]
+    public ActionResult<CommandReadDto> UpdateCommand(int id, CommandUpdateDto commandUpdateDto)
+    {
+      var commandModelFromRepo = _repository.GetCommandById(id);
+      if (commandModelFromRepo == null)
+      {
+          return NotFound();
+      }
+      // cuando mapea automaticamente se actualizan los datos del commandModelFromRepo
+      _mapper.Map(commandUpdateDto, commandModelFromRepo);
+      
+    }
   }
 }
