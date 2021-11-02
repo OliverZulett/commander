@@ -30,6 +30,7 @@ namespace Commander.Controller
       return Ok(_mapper.Map<IEnumerable<CommandReadDto>>(commandsItems));
     }
 
+    // ponemos el Name para que el CreatedAtRoute lo reconozca
     [HttpGet("{id}", Name="GetCommandById")]
     public ActionResult<CommandReadDto> GetCommandById(int id)
     {
@@ -49,6 +50,8 @@ namespace Commander.Controller
       _repository.SaveChanges();
       var commandReadDto = _mapper.Map<CommandReadDto>(commandModel);
       // return Ok(commandReadDto);
+      // const el created CreatedAtRoute generamos el hateoas solo que el link se muestra en el header del response
+      // const el parametro location
       return CreatedAtRoute(nameof(GetCommandById), new {Id = commandReadDto.Id}, commandReadDto);
     }
   }
