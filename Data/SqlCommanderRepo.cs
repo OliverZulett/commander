@@ -40,7 +40,7 @@ namespace Commander.Data
 
     public void UpdateCommand(Command command)
     {
-      throw new NotImplementedException(); 
+      // _context.Commands.Update(command);
     }
   }
 }

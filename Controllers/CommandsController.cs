@@ -56,7 +56,7 @@ namespace Commander.Controller
     }
 
     [HttpPut("{id}")]
-    public ActionResult<CommandReadDto> UpdateCommand(int id, CommandUpdateDto commandUpdateDto)
+    public ActionResult UpdateCommand(int id, CommandUpdateDto commandUpdateDto)
     {
       var commandModelFromRepo = _repository.GetCommandById(id);
       if (commandModelFromRepo == null)
@@ -65,7 +65,9 @@ namespace Commander.Controller
       }
       // cuando mapea automaticamente se actualizan los datos del commandModelFromRepo
       _mapper.Map(commandUpdateDto, commandModelFromRepo);
-      
+      _repository.UpdateCommand(commandModelFromRepo);
+      _repository.SaveChanges();
+      return NoContent();
     }
   }
 }
