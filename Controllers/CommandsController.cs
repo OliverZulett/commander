@@ -3,6 +3,7 @@ using AutoMapper;
 using Commander.Data;
 using Commander.Dtos;
 using Commander.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Commander.Controller
@@ -66,6 +67,41 @@ namespace Commander.Controller
       // cuando mapea automaticamente se actualizan los datos del commandModelFromRepo
       _mapper.Map(commandUpdateDto, commandModelFromRepo);
       _repository.UpdateCommand(commandModelFromRepo);
+      _repository.SaveChanges();
+      return NoContent();
+    }
+
+    [HttpPatch("{id}")]
+    public ActionResult PartialCommandUpdate(int id, JsonPatchDocument<CommandUpdateDto> patchDoc)
+    {
+      var commandModelFromRepo = _repository.GetCommandById(id);
+      if (commandModelFromRepo == null)
+      {
+          return NotFound();
+      }
+      // con esto se mapea y valida los campos
+      var commandToPatch = _mapper.Map<CommandUpdateDto>(commandModelFromRepo);
+      patchDoc.ApplyTo(commandToPatch, ModelState);
+      if (!TryValidateModel(commandToPatch))
+      {
+          return ValidationProblem(ModelState);
+      }
+
+      _mapper.Map(commandToPatch, commandModelFromRepo);
+      _repository.UpdateCommand(commandModelFromRepo);
+      _repository.SaveChanges();
+      return NoContent();
+    }
+
+    [HttpDelete("{id}")]
+    public ActionResult DeleteCommandById(int id)
+    {
+      var commandModelFromRepo = _repository.GetCommandById(id);
+      if (commandModelFromRepo == null)
+      {
+          return NotFound();
+      }
+      _repository.DeleteCommand(commandModelFromRepo);
       _repository.SaveChanges();
       return NoContent();
     }
